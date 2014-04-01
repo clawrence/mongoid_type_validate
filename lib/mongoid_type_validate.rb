@@ -16,7 +16,7 @@ module MongoidTypeValidate
   module Number
     module ClassMethods
       def mongoize(object)
-        if object.numeric?
+        if object.numeric? || !object.present?
           super(object)
         else
           "Mongoid::Errors::InvalidType: expected Numeric Value got: '#{object.to_s}'"
@@ -27,7 +27,7 @@ module MongoidTypeValidate
   module Time
     module ClassMethods
       def mongoize(object)
-        if (::Time.parse(object.to_s) rescue false)
+        if (::Time.parse(object.to_s) rescue false) || !object.present?
           super(object)
         else
           "Mongoid::Errors::InvalidType: expected Time Value got: '#{object.to_s}'"
